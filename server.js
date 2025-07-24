@@ -4,6 +4,17 @@ const vision = require('@google-cloud/vision');
 const cors = require('cors');
 const app = express();
 const PORT = 3000;
+const fs = require('fs');
+const path = require('path');
+
+const keyPath = '/tmp/gcloud-key.json';
+
+// 將 JSON 環境變數內容寫入 tmp 金鑰檔案
+fs.writeFileSync(keyPath, process.env.GOOGLE_CREDENTIALS_JSON);
+
+const client = new vision.ImageAnnotatorClient({
+  keyFilename: keyPath
+});
 
 // ✅ 自動讀取 GOOGLE_APPLICATION_CREDENTIALS 所指定的金鑰
 const client = new vision.ImageAnnotatorClient();
